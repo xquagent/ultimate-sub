@@ -1,0 +1,1 @@
+javascript:(function(){let s=document.createElement("script");s.src="http://127.0.0.1:8787/ultimate-sub.js?v="+Date.now();s.onload=()=>s.remove();s.onerror=()=>alert("Ultimate Sub could not load from the local server.");document.head.appendChild(s);})();
