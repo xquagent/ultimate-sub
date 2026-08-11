@@ -4,13 +4,15 @@
 
 	const MOD_ID = "UltimateSub";
 	const MOD_NAME = "Ultimate Sub";
-	const MOD_VERSION = "0.10.3";
-	const PUBLIC_VERSION = "0.7.6";
+	const MOD_VERSION = "0.10.20";
+	const PUBLIC_VERSION = "0.8.13";
 	const STORAGE_KEY = "UltimateSub.Settings.v2";
 	const LEGACY_STORAGE_KEY = "UltimateSub.Settings.v1";
 	const VERSION_STORAGE_KEY = "UltimateSub.LastLoadedVersion";
 	const VERSION_SAFETY_RESET_BEFORE = "0.9.9";
 	const PROFILE_OWNER_BUTTON = { x: 1715, y: 685, w: 90, h: 90 };
+	const COLLAR_MENU_CLOSE_BUTTON = { x: 1815, y: 75, w: 90, h: 90 };
+	const COLLAR_SHOCK_MODES = ["off", "low", "medium", "high"];
 	const TRAINING_DEFAULTS_VERSION = "0.2.2";
 	const AUDIT_LOG_LIMIT = 250;
 	const AUDIT_LOG_PAGE_SIZE = 10;
@@ -18,6 +20,12 @@
 	const STRIKE_POPUP_PRESET_BUTTONS = 3;
 	const TRAINING_PRESENCE_CONTENT = "UltimateSubTrainingPresence";
 	const TRAINING_PRESENCE_TTL = 90000;
+	const US_SLIM_LOCK_COLLAR = {
+		name: "UltimateSubSlimLockCollar",
+		group: "ItemNeck",
+		label: "US Slim Lock Collar",
+		imageDataUrl: "data:image/png;base64,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",
+	};
 	const AUDIT_FILTERS = [
 		{ id: "all", label: "All" },
 		{ id: "rp", label: "RP" },
@@ -328,6 +336,7 @@
 		ultraBcEscapeToolsLocked: false,
 		ultraBcAutoRelockAt: 0,
 		wardrobeCommandLocked: false,
+		collarShockMode: "off",
 		sceneMode: "none",
 		training: { ...defaultTrainingSettings },
 		rpArousal: { ...defaultRpArousalSettings },
@@ -376,6 +385,14 @@
 		restraints: null,
 		view: "main",
 	};
+	let collarMenu = {
+		targetMemberNumber: 0,
+		message: "",
+		pendingAt: 0,
+		pendingLabel: "",
+		lastStatus: "",
+		shockMode: "",
+	};
 	let trainingPresence = {};
 	let lastTrainingPresenceBroadcastAt = 0;
 	let lastTrainingPresenceBroadcastKey = "";
@@ -387,6 +404,8 @@
 	let lastHonorificBlockNoticeAt = 0;
 	let lastTrainingTaskBlockNoticeAt = 0;
 	let lastRpArousalMessageKey = "";
+	let ultimateSubAssetsRegistered = false;
+	let ultimateSubCollarImage = null;
 
 	function beacon(stage) {
 		try {
@@ -434,6 +453,7 @@
 			localEmergencyPaused: false,
 			ultraBcEscapeToolsLocked: legacy.ultraBcEscapeToolsLocked === true,
 			wardrobeCommandLocked: false,
+			collarShockMode: "off",
 			sceneMode: "none",
 			training: { ...defaultTrainingSettings },
 			rpArousal: { ...defaultRpArousalSettings },
@@ -471,6 +491,7 @@
 		normalized.restraints = normalizeRestraintSettings(normalized.restraints);
 		if (!Array.isArray(normalized.auditLog)) normalized.auditLog = [];
 		normalized.rpArousal = normalizeRpArousalSettings(normalized.rpArousal);
+		normalized.collarShockMode = normalizeCollarShockMode(normalized.collarShockMode) || "off";
 		normalized.tasks = normalized.tasks.slice(0, 12);
 		normalized.tokens = normalized.tokens.slice(0, 12);
 		normalized.auditLog = normalized.auditLog.map(normalizeAuditEntry).slice(-AUDIT_LOG_LIMIT);
@@ -661,6 +682,7 @@
 			commandStatus,
 			ultraBcStatus,
 			wardrobeStatus,
+			buildCollarShockStatusLine(),
 			`Scene preset: ${scene.name}`,
 			trainingStatus,
 			buildRpArousalStatusLine(),
@@ -1238,7 +1260,7 @@
 
 		drawLabelLines([
 			`Last Training note: ${lastTraining}`,
-			"The white heel marker appears beside this sub in-room while Training is active.",
+			"The white In Training label appears beside this sub in-room while Training is active.",
 		], 1145, 855, 38);
 	}
 
@@ -1424,6 +1446,41 @@
 		remotePanel.pendingAt = 0;
 		remotePanel.pendingLabel = "";
 		return false;
+	}
+
+	function captureCollarMenuResponse(data) {
+		if (!collarMenu.targetMemberNumber || !data) return false;
+		if (Number(data.Sender) !== collarMenu.targetMemberNumber) return false;
+
+		if (data.Type === "Hidden" && data.Content === "UltimateSubResponse") {
+			const hiddenMessage = getDictionaryText(data, "UltimateSubMessage");
+			if (hiddenMessage) {
+				const clean = hiddenMessage.replace(/^\[Ultimate Sub\]\s*/i, "");
+				updateCollarMenuKnownState(clean);
+				collarMenu.message = clean;
+				collarMenu.lastStatus = clean;
+				collarMenu.pendingAt = 0;
+				collarMenu.pendingLabel = "";
+				return true;
+			}
+		}
+
+		if (data.Type !== "Whisper") return false;
+		const content = typeof data.Content === "string" ? data.Content : "";
+		if (!content.includes("[Ultimate Sub]")) return false;
+		const clean = content.replace(/^\[Ultimate Sub\]\s*/i, "");
+		updateCollarMenuKnownState(clean);
+		collarMenu.message = clean;
+		collarMenu.lastStatus = clean;
+		collarMenu.pendingAt = 0;
+		collarMenu.pendingLabel = "";
+		return false;
+	}
+
+	function updateCollarMenuKnownState(message) {
+		const lower = String(message || "").toLowerCase();
+		const match = lower.match(/collar shock:\s*(off|low|medium|med|high)/);
+		if (match) collarMenu.shockMode = normalizeCollarShockMode(match[1]) || "";
 	}
 
 	function ignoreLegacyStrikeAlert(data) {
@@ -1832,17 +1889,16 @@
 		MainCanvas.restore();
 	}
 
-	function drawTrainingStatusHeel(character, x, y, zoom) {
-		if (!shouldDrawTrainingHeel(character)) return;
+	function drawTrainingStatusLabel(character, x, y, zoom) {
+		if (!shouldDrawTrainingLabel(character)) return;
 		if (typeof MainCanvas === "undefined" || !MainCanvas) return;
 		const safeZoom = Number(zoom) || 1;
-		const cx = Number(x || 0) + 106 * safeZoom;
-		const cy = Number(y || 0) + 640 * safeZoom;
-		const size = Math.max(18, 32 * safeZoom);
-		drawHighHeelIcon(cx, cy, size);
+		const cx = Number(x || 0) + 100 * safeZoom;
+		const firstLineY = Number(y || 0) + 688 * safeZoom;
+		drawTrainingStatusText(cx, firstLineY, safeZoom);
 	}
 
-	function shouldDrawTrainingHeel(character) {
+	function shouldDrawTrainingLabel(character) {
 		if (!character || !character.MemberNumber) return false;
 		if (typeof CurrentScreen !== "undefined" && CurrentScreen !== "ChatRoom") return false;
 		if (typeof ChatRoomCharacter !== "undefined" && Array.isArray(ChatRoomCharacter) && !ChatRoomCharacter.includes(character)) return false;
@@ -1857,40 +1913,23 @@
 		return true;
 	}
 
-	function drawHighHeelIcon(cx, cy, size) {
+	function drawTrainingStatusText(cx, firstLineY, zoom) {
 		MainCanvas.save();
-		MainCanvas.lineJoin = "round";
-		MainCanvas.lineCap = "round";
-
-		const drawShape = (stroke, width) => {
-			MainCanvas.strokeStyle = stroke;
-			MainCanvas.lineWidth = width;
-			MainCanvas.beginPath();
-			MainCanvas.moveTo(cx - size * 0.46, cy + size * 0.18);
-			MainCanvas.lineTo(cx - size * 0.08, cy + size * 0.18);
-			MainCanvas.quadraticCurveTo(cx + size * 0.18, cy + size * 0.12, cx + size * 0.42, cy - size * 0.04);
-			MainCanvas.lineTo(cx + size * 0.2, cy - size * 0.14);
-			MainCanvas.quadraticCurveTo(cx - size * 0.06, cy - size * 0.02, cx - size * 0.28, cy + size * 0.12);
-			MainCanvas.stroke();
-
-			MainCanvas.beginPath();
-			MainCanvas.moveTo(cx - size * 0.06, cy + size * 0.18);
-			MainCanvas.lineTo(cx + size * 0.02, cy + size * 0.48);
-			MainCanvas.stroke();
-
-			MainCanvas.beginPath();
-			MainCanvas.moveTo(cx - size * 0.04, cy + size * 0.48);
-			MainCanvas.lineTo(cx + size * 0.1, cy + size * 0.48);
-			MainCanvas.stroke();
-
-			MainCanvas.beginPath();
-			MainCanvas.moveTo(cx + size * 0.2, cy - size * 0.14);
-			MainCanvas.lineTo(cx + size * 0.28, cy - size * 0.32);
-			MainCanvas.stroke();
-		};
-
-		drawShape("rgba(0, 0, 0, 0.75)", Math.max(3, size * 0.16));
-		drawShape("White", Math.max(2, size * 0.1));
+		const fontSize = Math.max(12, Math.round(15 * zoom));
+		const lineHeight = Math.max(12, Math.round(14 * zoom));
+		MainCanvas.font = `bold ${fontSize}px Arial`;
+		MainCanvas.textAlign = "center";
+		MainCanvas.textBaseline = "middle";
+		MainCanvas.lineWidth = Math.max(2, Math.round(3 * zoom));
+		MainCanvas.strokeStyle = "rgba(0, 0, 0, 0.85)";
+		MainCanvas.fillStyle = "White";
+		MainCanvas.shadowColor = "rgba(0, 0, 0, 0.8)";
+		MainCanvas.shadowBlur = Math.max(2, Math.round(3 * zoom));
+		["In", "Training"].forEach((line, index) => {
+			const y = firstLineY + index * lineHeight;
+			MainCanvas.strokeText(line, cx, y);
+			MainCanvas.fillText(line, cx, y);
+		});
 		MainCanvas.restore();
 	}
 
@@ -2080,9 +2119,46 @@
 			: "Wardrobe command: allowed";
 	}
 
+	function buildCollarShockStatusLine() {
+		return `Collar shock: ${getCollarShockDisplay(settings.collarShockMode)}.`;
+	}
+
 	function buildTrainingStatusLine() {
 		const training = settings.training;
 		return `Training: ${settings.sceneMode === "training" ? "active" : "inactive"}; kneel lock ${training.forceKneel ? "on" : "off"}; UltraBC lock ${training.lockUltraBc ? "on" : "off"}; wardrobe lock ${training.lockWardrobe ? "on" : "off"}; honorific ${getHonorificDisplay(training.honorific)}; strikes ${training.honorificStrikes || 0}; system scold ${training.strikeAlertsEnabled ? "on" : "off"} after ${training.strikeThreshold || 3}; start message ${training.announceStart ? "on" : "off"}.`;
+	}
+
+	function normalizeCollarShockMode(value) {
+		const lower = String(value || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+		if (!lower || lower === "off" || lower === "none" || lower === "no" || lower === "0") return "off";
+		if (lower === "on" || lower === "low" || lower === "1" || lower === "soft") return "low";
+		if (lower === "med" || lower === "medium" || lower === "mid" || lower === "2" || lower === "normal") return "medium";
+		if (lower === "high" || lower === "hard" || lower === "strong" || lower === "3") return "high";
+		return "";
+	}
+
+	function getCollarShockDisplay(mode) {
+		const normalized = normalizeCollarShockMode(mode);
+		if (normalized === "low") return "Low";
+		if (normalized === "medium") return "Medium";
+		if (normalized === "high") return "High";
+		return "Off";
+	}
+
+	function getCollarShockLevel(mode) {
+		const normalized = normalizeCollarShockMode(mode);
+		if (normalized === "low") return 1;
+		if (normalized === "medium") return 2;
+		if (normalized === "high") return 3;
+		return 0;
+	}
+
+	function getCollarShockButtonColor(mode) {
+		const normalized = normalizeCollarShockMode(mode);
+		if (normalized === "high") return "Pink";
+		if (normalized === "medium") return "#FFD9E5";
+		if (normalized === "low") return "#D9E8FF";
+		return "White";
 	}
 
 	function normalizeHonorific(value) {
@@ -2201,6 +2277,7 @@
 			);
 			uiState.message = message;
 			publishWardrobeDeniedMessage();
+			if (!strike) maybeTriggerCollarShock("wardrobe", "Tried to use the locked wardrobe command.", 0);
 			addAudit("Wardrobe command blocked.", strike ? `Strike ${strike}.` : "", Player && Player.MemberNumber);
 			saveSettings();
 			log(message);
@@ -2225,6 +2302,73 @@
 		} catch (error) {
 			console.warn(`[${MOD_NAME}] Could not publish wardrobe denial`, error);
 		}
+	}
+
+	function shouldTriggerCollarShock() {
+		return settings.enabled
+			&& !settings.localEmergencyPaused
+			&& getCollarShockLevel(settings.collarShockMode) > 0;
+	}
+
+	function maybeTriggerCollarShock(trigger, reason, strike) {
+		if (!shouldTriggerCollarShock()) return false;
+		const sent = publishCollarShockActivity(trigger, reason, strike);
+		if (sent) {
+			addAudit("Collar shock triggered.", `${getCollarShockDisplay(settings.collarShockMode)} after ${trigger}${strike ? ` strike ${strike}` : ""}.`, Player && Player.MemberNumber, "locks");
+		}
+		return sent;
+	}
+
+	function publishCollarShockActivity(trigger, reason, strike) {
+		if (!isPlayerInChatRoom() || typeof ServerSend !== "function" || typeof DictionaryBuilder === "undefined" || !Player) return false;
+		const collar = getWornUltimateSubCollar();
+		if (!collar || !collar.Asset) return false;
+
+		const shockLevel = getCollarShockLevel(settings.collarShockMode);
+		if (shockLevel <= 0) return false;
+		setWornUltimateSubCollarShockProperty(settings.collarShockMode);
+
+		try {
+			const group = typeof AssetGroupGet === "function"
+				? AssetGroupGet(getPlayerAssetFamily(), US_SLIM_LOCK_COLLAR.group)
+				: { Name: US_SLIM_LOCK_COLLAR.group };
+			const builder = new DictionaryBuilder()
+				.sourceCharacter(Player)
+				.targetCharacter(Player)
+				.focusGroup(US_SLIM_LOCK_COLLAR.group);
+			if (typeof builder.asset === "function") {
+				builder.asset(collar.Asset, "ActivityAsset", collar.Craft && collar.Craft.Name);
+			}
+			const dictionary = builder.build();
+			dictionary.push({ ActivityName: "ShockItem" });
+			dictionary.push({ ActivityCounter: shockLevel });
+			dictionary.push({ ShockIntensity: 1.5 * shockLevel });
+			dictionary.push({ Tag: "UltimateSubCollarShock", Text: String(shockLevel) });
+			if (trigger) dictionary.push({ Tag: "UltimateSubCollarShockTrigger", Text: trigger });
+			if (reason) dictionary.push({ Tag: "UltimateSubCollarShockReason", Text: reason });
+			if (strike) dictionary.push({ Tag: "UltimateSubCollarShockStrike", Text: String(strike) });
+
+			ServerSend("ChatRoomChat", {
+				Content: buildCollarShockActivityContent(group),
+				Type: "Activity",
+				Dictionary: dictionary,
+			});
+			return true;
+		} catch (error) {
+			console.warn(`[${MOD_NAME}] Could not trigger collar shock`, error);
+			return false;
+		}
+	}
+
+	function buildCollarShockActivityContent(group) {
+		if (typeof ActivityBuildChatTag === "function") {
+			try {
+				return ActivityBuildChatTag(Player, group || { Name: US_SLIM_LOCK_COLLAR.group }, { Name: "ShockItem" });
+			} catch (error) {
+				console.warn(`[${MOD_NAME}] Could not build collar shock activity text`, error);
+			}
+		}
+		return `ChatSelf-${US_SLIM_LOCK_COLLAR.group}-ShockItem`;
 	}
 
 	function getPlayerDisplayName() {
@@ -2612,6 +2756,7 @@
 			settings.tasks = settings.tasks.slice(-12);
 		}
 		maybePublishSystemStrikeScold(strike, reason);
+		maybeTriggerCollarShock("strike", reason, strike);
 		return strike;
 	}
 
@@ -3425,7 +3570,7 @@
 		const command = (args.shift() || "help").toLowerCase();
 
 		if (command === "help") {
-			respondToOwner(sender, "Commands: status, ubc lock/unlock, wardrobe lock/unlock, rp status/mode/target/performer, training start/end/kneel/ubc/wardrobe/honorific/posture/attention/praise/scold/strikes, scene public/quiet/aftercare/off, task action/list/add/done/clear, restraint list/save/add/apply/remove/delete/clear, punish scoldkneel/apology, token grant/revoke/clear. Buttons are preferred.");
+			respondToOwner(sender, "Commands: status, collar status/training/wardrobe/ubc/shock/honorific/posture/attention/praise/scold/strikes/rp, ubc lock/unlock, wardrobe lock/unlock, rp status/mode/target/performer, training start/end/kneel/ubc/wardrobe/honorific/posture/attention/praise/scold/strikes, scene public/quiet/aftercare/off, task action/list/add/done/clear, restraint list/save/add/apply/remove/delete/clear, punish scoldkneel/apology, token grant/revoke/clear. Buttons are preferred.");
 			return true;
 		}
 
@@ -3458,6 +3603,11 @@
 
 		if (command === "training" || command === "train") {
 			handleTrainingCommand(args, sender);
+			return true;
+		}
+
+		if (command === "collar") {
+			handleCollarCommand(args, sender);
 			return true;
 		}
 
@@ -3913,6 +4063,172 @@
 		}
 
 		respondToOwner(sender, "Unknown Training control.");
+	}
+
+	function handleCollarCommand(args, sender) {
+		const action = (args.shift() || "status").toLowerCase();
+
+		if (action === "status" || action === "pulse") {
+			publishCollarRoomMessage("status");
+			addAudit("Collar status pulse sent.", "", sender, "owner");
+			saveSettings();
+			respondToOwner(sender, buildOwnerStatus());
+			return;
+		}
+
+		if (action === "training" || action === "train") {
+			const trainingAction = (args.shift() || "start").toLowerCase();
+			if (trainingAction === "start" || trainingAction === "on") {
+				const willUseTrainingMessage = settings.training.announceStart === true;
+				setSceneModeFromOwner("training", sender);
+				if (!willUseTrainingMessage) publishCollarRoomMessage("training-start");
+				return;
+			}
+			if (trainingAction === "end" || trainingAction === "off" || trainingAction === "stop") {
+				setSceneModeFromOwner("none", sender);
+				return;
+			}
+			respondToOwner(sender, "Unknown collar Training control.");
+			return;
+		}
+
+		if (action === "wardrobe" || action === "wrobe") {
+			const requested = args.shift();
+			const locked = normalizeToggleValue(requested, !settings.wardrobeCommandLocked);
+			setWardrobeCommandLocked(locked, locked ? "Owner sealed wardrobe access from the collar." : "Owner allowed wardrobe access from the collar.", sender);
+			publishCollarRoomMessage(locked ? "wardrobe-lock" : "wardrobe-allow");
+			respondToOwner(sender, locked ? "Wardrobe command locked." : "Wardrobe command allowed.");
+			return;
+		}
+
+		if (action === "ubc" || action === "ultrabc" || action === "escape") {
+			const requested = args.shift();
+			const locked = normalizeToggleValue(requested, !settings.ultraBcEscapeToolsLocked);
+			setUltraBcEscapeToolsLocked(locked, locked ? "Owner sealed UltraBC escape tools from the collar." : "Owner allowed UltraBC escape tools from the collar.", sender);
+			publishCollarRoomMessage(locked ? "ubc-lock" : "ubc-allow");
+			respondToOwner(sender, locked ? "UltraBC escape tools hard-locked." : "UltraBC escape tools allowed.");
+			return;
+		}
+
+		if (action === "shock" || action === "zap") {
+			const requested = args.shift();
+			const requestedText = String(requested || "").toLowerCase();
+			const requestedMode = requestedText && !["cycle", "toggle", "next"].includes(requestedText)
+				? normalizeCollarShockMode(requested)
+				: "";
+			const nextMode = requestedMode || nextCycleValue(COLLAR_SHOCK_MODES, normalizeCollarShockMode(settings.collarShockMode) || "off");
+			settings.collarShockMode = nextMode;
+			setWornUltimateSubCollarShockProperty(nextMode);
+			addAudit("Collar shock mode changed.", getCollarShockDisplay(nextMode), sender, "locks");
+			saveSettings();
+			uiState.message = `Collar shock: ${getCollarShockDisplay(nextMode)}.`;
+			publishCollarRoomMessage("shock-mode");
+			respondToOwner(sender, `${buildCollarShockStatusLine()} Shocks trigger on Training strikes and locked wardrobe attempts.`);
+			return;
+		}
+
+		if (action === "honorific") {
+			const requestedHonorific = args.shift();
+			const honorific = normalizeHonorific(requestedHonorific) || nextHonorific(settings.training.honorific);
+			settings.training.honorific = honorific;
+			settings.training.honorificStrikes = 0;
+			settings.training.lastStrikeAlertCount = 0;
+			addAudit("Collar honorific changed.", getHonorificDisplay(honorific), sender, "training");
+			saveSettings();
+			uiState.message = `Collar honorific: ${getHonorificDisplay(honorific)}.`;
+			if (isTrainingSceneActive() && honorific !== "off") publishTrainingRoomMessage("honorific");
+			else publishCollarRoomMessage(honorific === "off" ? "honorific-off" : "honorific");
+			respondToOwner(sender, `${buildTrainingStatusLine()} Honorific changed.`);
+			return;
+		}
+
+		if (action === "posture" || action === "kneel" || action === "check") {
+			const effect = setPlayerKneelingFromOwner(true, sender);
+			publishTrainingRoomMessage("posture");
+			addAudit("Collar posture check.", effect, sender, "training");
+			saveSettings();
+			respondToOwner(sender, `Collar posture check sent.${effect ? ` ${effect}` : ""}`);
+			return;
+		}
+
+		if (action === "attention") {
+			publishTrainingRoomMessage("attention");
+			addAudit("Collar attention prompt sent.", "", sender, "training");
+			saveSettings();
+			respondToOwner(sender, "Collar attention prompt sent.");
+			return;
+		}
+
+		if (action === "praise") {
+			publishTrainingRoomMessage("praise");
+			addAudit("Collar praise prompt sent.", "", sender, "training");
+			saveSettings();
+			respondToOwner(sender, "Collar praise prompt sent.");
+			return;
+		}
+
+		if (action === "scold") {
+			publishTrainingRoomMessage("scold");
+			addAudit("Collar scold prompt sent.", "", sender, "training");
+			saveSettings();
+			respondToOwner(sender, "Collar scold prompt sent.");
+			return;
+		}
+
+		if (action === "strikes") {
+			const strikeAction = (args.shift() || "clear").toLowerCase();
+			if (["clear", "reset"].includes(strikeAction)) {
+				settings.training.honorificStrikes = 0;
+				settings.training.lastStrikeAlertCount = 0;
+				addAudit("Collar strikes cleared.", "", sender, "training");
+				saveSettings();
+				publishCollarRoomMessage("strikes-clear");
+				respondToOwner(sender, buildTrainingStatusLine());
+				return;
+			}
+			respondToOwner(sender, `${settings.training.honorificStrikes || 0} Training strikes.`);
+			return;
+		}
+
+		if (action === "rp" || action === "rpa" || action === "arousal") {
+			settings.rpArousal.mode = nextCycleValue(RP_AROUSAL_MODES, settings.rpArousal.mode);
+			addAudit("Collar RP Arousal mode changed.", getRpArousalModeDisplay(settings.rpArousal.mode), sender, "rp");
+			saveSettings();
+			publishCollarRoomMessage("rp-cycle");
+			respondToOwner(sender, buildRpArousalStatusLine());
+			return;
+		}
+
+		if (action === "preset" || action === "restraint") {
+			applyRestraintPreset(args.shift() || "1", sender);
+			return;
+		}
+
+		respondToOwner(sender, "Unknown collar control.");
+	}
+
+	function publishCollarRoomMessage(kind) {
+		const name = getPlayerDisplayName();
+		const honorific = getHonorificDisplay(settings.training.honorific);
+		const rpMode = getRpArousalModeDisplay(settings.rpArousal.mode);
+		const shockMode = getCollarShockDisplay(settings.collarShockMode);
+		const messageMap = {
+			status: `*The Slim Lock Collar gives a quiet status pulse around ${name}: ${settings.sceneMode === "training" ? "Training active" : "Training inactive"}, ${settings.wardrobeCommandLocked ? "wardrobe sealed" : "wardrobe allowed"}, ${settings.ultraBcEscapeToolsLocked ? "escape sealed" : "escape allowed"}, shock ${shockMode}, RP arousal ${rpMode}.`,
+			"training-start": `*The Slim Lock Collar settles snugly around ${name}; owner-led Training is now active.`,
+			"wardrobe-lock": `*The Slim Lock Collar clicks once around ${name}; wardrobe access is sealed by owner command.`,
+			"wardrobe-allow": `*The Slim Lock Collar softens its hold on ${name}; wardrobe access is allowed again.`,
+			"ubc-lock": `*The Slim Lock Collar marks ${name} as secured; escape tools are locked away by owner command.`,
+			"ubc-allow": `*The Slim Lock Collar releases its escape seal on ${name}; escape tools are allowed again.`,
+			"shock-mode": shockMode === "Off"
+				? `*The Slim Lock Collar disarms its correction charge around ${name}; shock discipline is off.`
+				: `*The Slim Lock Collar arms a ${shockMode.toLowerCase()} correction charge around ${name}; strikes and forbidden wardrobe attempts will bite back.`,
+			honorific: `*The Slim Lock Collar tightens protocol around ${name}; owner is to be answered with ${honorific}.`,
+			"honorific-off": `*The Slim Lock Collar relaxes ${name}'s speech protocol; honorific enforcement is off.`,
+			"strikes-clear": `*The Slim Lock Collar clears ${name}'s Training strike marks and waits for better obedience.`,
+			"rp-cycle": `*The Slim Lock Collar adjusts ${name}'s RP arousal link: ${rpMode}.`,
+		};
+		const message = messageMap[kind];
+		if (message) publishClubEmote(message);
 	}
 
 	function setTrainingFlag(key, requestedValue, label, sender, applyActiveEffect) {
@@ -4421,7 +4737,7 @@
 		const tasks = settings.tasks.filter((task) => !task.done).length;
 		const tokens = getActiveTokens().length;
 		const restraintCount = settings.restraints.presets.length;
-		return `${scene.name}; ${ubc}; ${wardrobe}; ${tasks} open tasks; ${tokens} active tokens; ${restraintCount} saved restraints. ${buildTrainingStatusLine()} ${buildRpArousalStatusLine()}`;
+		return `${scene.name}; ${ubc}; ${wardrobe}; ${buildCollarShockStatusLine()} ${tasks} open tasks; ${tokens} active tokens; ${restraintCount} saved restraints. ${buildTrainingStatusLine()} ${buildRpArousalStatusLine()}`;
 	}
 
 	function respondToOwner(senderNumber, message) {
@@ -4641,6 +4957,509 @@
 		return ChatRoomCharacter.find((character) => character && character.MemberNumber === numericMemberNumber) || null;
 	}
 
+	function getPlayerAssetFamily() {
+		if (typeof Player !== "undefined" && Player && Player.AssetFamily) return Player.AssetFamily;
+		return "Female3DCG";
+	}
+
+	function getUltimateSubAssetGroupDef(groupName) {
+		if (typeof AssetFemale3DCG !== "undefined" && Array.isArray(AssetFemale3DCG)) {
+			return AssetFemale3DCG.find((group) => group && group.Group === groupName) || null;
+		}
+		return null;
+	}
+
+	function getUltimateSubCollarAsset() {
+		if (typeof AssetGet !== "function") return null;
+		return AssetGet(getPlayerAssetFamily(), US_SLIM_LOCK_COLLAR.group, US_SLIM_LOCK_COLLAR.name);
+	}
+
+	function getWornUltimateSubCollar() {
+		if (!Player || typeof InventoryGet !== "function") return null;
+		const item = InventoryGet(Player, US_SLIM_LOCK_COLLAR.group);
+		if (!item || !item.Asset || item.Asset.Name !== US_SLIM_LOCK_COLLAR.name) return null;
+		return item;
+	}
+
+	function setWornUltimateSubCollarShockProperty(mode) {
+		const collar = getWornUltimateSubCollar();
+		if (!collar) return false;
+		if (!collar.Property) collar.Property = {};
+		const shockLevel = getCollarShockLevel(mode);
+		collar.Property.ShockLevel = shockLevel;
+		if (shockLevel > 0) {
+			const effects = Array.isArray(collar.Property.Effect) ? collar.Property.Effect : [];
+			if (!effects.includes("ReceiveShock")) collar.Property.Effect = [...effects, "ReceiveShock"];
+		}
+		return true;
+	}
+
+	function getUltimateSubCollarImagePaths() {
+		const families = Array.from(new Set([getPlayerAssetFamily(), "Female3DCG"]));
+		const group = US_SLIM_LOCK_COLLAR.group;
+		const name = US_SLIM_LOCK_COLLAR.name;
+		return families.flatMap((family) => [
+			`Assets/${family}/${group}/Preview/${name}.png`,
+			`Assets/${family}/${group}/${name}.png`,
+			`Assets/${family}/${group}/${name}_.png`,
+		]);
+	}
+
+	function getUltimateSubCollarImage() {
+		if (ultimateSubCollarImage) return ultimateSubCollarImage;
+		ultimateSubCollarImage = new Image();
+		ultimateSubCollarImage.addEventListener("load", () => {
+			cacheUltimateSubCollarImageAliases();
+			refreshUltimateSubCollarWearers();
+		});
+		ultimateSubCollarImage.src = US_SLIM_LOCK_COLLAR.imageDataUrl;
+		return ultimateSubCollarImage;
+	}
+
+	function cacheUltimateSubCollarImageAliases() {
+		const image = getUltimateSubCollarImage();
+		let cached = false;
+		if (
+			typeof DrawCacheImage !== "undefined"
+			&& DrawCacheImage
+			&& typeof DrawCacheImage.set === "function"
+		) {
+			DrawCacheImage.set(US_SLIM_LOCK_COLLAR.imageDataUrl, image);
+			cached = true;
+		}
+		getUltimateSubCollarImagePaths().forEach((path) => {
+			if (
+				typeof DrawCacheImage !== "undefined"
+				&& DrawCacheImage
+				&& typeof DrawCacheImage.set === "function"
+			) {
+				DrawCacheImage.set(path, image);
+				cached = true;
+			}
+			if (
+				typeof GLDrawImageCache !== "undefined"
+				&& GLDrawImageCache
+				&& typeof GLDrawImageCache.set === "function"
+			) {
+				GLDrawImageCache.set(path, image);
+				cached = true;
+			}
+			if (
+				typeof GLDrawCanvas !== "undefined"
+				&& GLDrawCanvas
+				&& GLDrawCanvas.GL
+				&& GLDrawCanvas.GL.textureCache
+				&& typeof GLDrawCanvas.GL.textureCache.delete === "function"
+			) {
+				GLDrawCanvas.GL.textureCache.delete(path);
+			}
+		});
+		return cached;
+	}
+
+	function refreshUltimateSubCollarWearers() {
+		if (typeof CharacterLoadCanvas !== "function") return;
+		const characters = [];
+		if (typeof Character !== "undefined" && Array.isArray(Character)) characters.push(...Character);
+		if (typeof Player !== "undefined" && Player) characters.push(Player);
+		characters.forEach((character) => {
+			if (
+				character
+				&& Array.isArray(character.Appearance)
+				&& character.Appearance.some((item) => item && item.Asset && item.Asset.Name === US_SLIM_LOCK_COLLAR.name)
+			) {
+				try {
+					CharacterLoadCanvas(character);
+				} catch (error) {
+					character.MustDraw = true;
+				}
+			}
+		});
+		if (
+			typeof AppearancePreviewBuild === "function"
+			&& typeof CharacterAppearanceSelection !== "undefined"
+			&& CharacterAppearanceSelection
+			&& CharacterAppearanceSelection.FocusGroup
+			&& CharacterAppearanceSelection.FocusGroup.Name === US_SLIM_LOCK_COLLAR.group
+		) {
+			try {
+				AppearancePreviewBuild(CharacterAppearanceSelection, true);
+			} catch (error) {
+				console.warn(`[${MOD_NAME}] Could not refresh collar preview`, error);
+			}
+		}
+	}
+
+	function finishUltimateSubCollarAsset(asset) {
+		if (!asset) return;
+		registerUltimateSubCollarMenuFunctions();
+		asset.Description = US_SLIM_LOCK_COLLAR.label;
+		asset.DynamicDescription = () => US_SLIM_LOCK_COLLAR.label;
+		asset.DynamicName = () => US_SLIM_LOCK_COLLAR.name;
+		asset.Extended = true;
+		asset.Effect = Array.from(new Set([...(Array.isArray(asset.Effect) ? asset.Effect : []), "ReceiveShock"]));
+	}
+
+	function registerUltimateSubAssets() {
+		cacheUltimateSubCollarImageAliases();
+		if (ultimateSubAssetsRegistered && getUltimateSubCollarAsset()) return true;
+		if (
+			typeof Player === "undefined"
+			|| !Player
+			|| typeof AssetAdd !== "function"
+			|| typeof AssetGet !== "function"
+			|| typeof AssetGroupGet !== "function"
+		) {
+			return false;
+		}
+
+		const existingAsset = getUltimateSubCollarAsset();
+		if (existingAsset) {
+			finishUltimateSubCollarAsset(existingAsset);
+			ultimateSubAssetsRegistered = true;
+			return true;
+		}
+
+		const group = AssetGroupGet(getPlayerAssetFamily(), US_SLIM_LOCK_COLLAR.group);
+		const groupDef = getUltimateSubAssetGroupDef(US_SLIM_LOCK_COLLAR.group);
+		if (!group || !groupDef) return false;
+
+		try {
+			AssetAdd(group, {
+				Name: US_SLIM_LOCK_COLLAR.name,
+				Value: 0,
+				Difficulty: 50,
+				Time: 5,
+				RemoveTime: 5,
+				Audio: "CuffsMetal",
+				Random: false,
+				Extended: true,
+				AllowLock: true,
+				DrawLocks: false,
+				AllowColorize: true,
+				DefaultColor: "#303030",
+				Effect: ["ReceiveShock"],
+				Fetish: ["Metal"],
+				Layer: [
+					{
+						AllowColorize: true,
+					},
+				],
+			}, undefined, groupDef);
+		} catch (error) {
+			console.warn(`[${MOD_NAME}] Could not register custom collar asset`, error);
+			return false;
+		}
+
+		const asset = getUltimateSubCollarAsset();
+		finishUltimateSubCollarAsset(asset);
+		ultimateSubAssetsRegistered = Boolean(asset);
+		cacheUltimateSubCollarImageAliases();
+		if (ultimateSubAssetsRegistered) beacon("custom-collar-registered");
+		return ultimateSubAssetsRegistered;
+	}
+
+	function remapUltimateSubAssetSource(source) {
+		if (typeof source !== "string" || !source.includes(US_SLIM_LOCK_COLLAR.name)) return source;
+		const cleanSource = source.split("?")[0].replace(/\\/g, "/");
+		const groupSegment = `/${US_SLIM_LOCK_COLLAR.group}/`;
+		const fileName = cleanSource.split("/").pop();
+		const supportedImages = [
+			`${US_SLIM_LOCK_COLLAR.name}.png`,
+			`${US_SLIM_LOCK_COLLAR.name}_.png`,
+		];
+		if (!cleanSource.includes(groupSegment) || !supportedImages.includes(fileName)) return source;
+		return US_SLIM_LOCK_COLLAR.imageDataUrl;
+	}
+
+	function drawUltimateSubCollarAssetPreview(args, next) {
+		const [x, y, asset, options = {}] = args;
+		if (!asset || asset.Name !== US_SLIM_LOCK_COLLAR.name || asset.Group?.Name !== US_SLIM_LOCK_COLLAR.group) {
+			return next(args);
+		}
+
+		if (typeof DrawPreviewBox !== "function") return next(args);
+		const {
+			C,
+			Description,
+			Background,
+			Foreground,
+			Vibrating,
+			Border,
+			Hover,
+			HoverBackground,
+			Disabled,
+			Icons,
+			Width,
+			Height,
+		} = options || {};
+		const description = Description == null
+			? (C && typeof asset.DynamicDescription === "function" ? asset.DynamicDescription(C) : asset.Description || US_SLIM_LOCK_COLLAR.label)
+			: Description;
+
+		DrawPreviewBox(x, y, US_SLIM_LOCK_COLLAR.imageDataUrl, description, {
+			Background,
+			Foreground,
+			Vibrating,
+			Border,
+			Hover,
+			HoverBackground,
+			Disabled,
+			Icons,
+			Width,
+			Height,
+		});
+		return true;
+	}
+
+	function registerUltimateSubCollarMenuFunctions() {
+		const prefix = `Inventory${US_SLIM_LOCK_COLLAR.group}${US_SLIM_LOCK_COLLAR.name}`;
+		window[`${prefix}Init`] = initUltimateSubCollarMenu;
+		window[`${prefix}Load`] = loadUltimateSubCollarMenu;
+		window[`${prefix}Draw`] = drawUltimateSubCollarMenu;
+		window[`${prefix}Click`] = clickUltimateSubCollarMenu;
+		window[`${prefix}Exit`] = exitUltimateSubCollarMenu;
+	}
+
+	function initUltimateSubCollarMenu(character, item) {
+		if (item && !item.Property) item.Property = {};
+		const context = getUltimateSubCollarMenuContext(character);
+		collarMenu.targetMemberNumber = context.memberNumber || 0;
+		collarMenu.message = "";
+		collarMenu.pendingAt = 0;
+		collarMenu.pendingLabel = "";
+		return true;
+	}
+
+	function loadUltimateSubCollarMenu() {
+		const context = getUltimateSubCollarMenuContext();
+		collarMenu.targetMemberNumber = context.memberNumber || 0;
+		collarMenu.message = context.access
+			? "Owner collar controls ready."
+			: "Owner access required.";
+	}
+
+	function exitUltimateSubCollarMenu() {
+		collarMenu.pendingAt = 0;
+		collarMenu.pendingLabel = "";
+	}
+
+	function closeUltimateSubCollarMenu() {
+		collarMenu.pendingAt = 0;
+		collarMenu.pendingLabel = "";
+		collarMenu.message = "";
+		try {
+			if (typeof DialogLeaveFocusItem === "function") {
+				DialogLeaveFocusItem(false);
+				return;
+			}
+		} catch (error) {
+			console.warn(`[${MOD_NAME}] Could not leave collar focus item`, error);
+		}
+		try {
+			if (typeof DialogChangeMode === "function") {
+				DialogChangeMode("items", true);
+				return;
+			}
+		} catch (error) {
+			console.warn(`[${MOD_NAME}] Could not return collar menu to items`, error);
+		}
+		if (typeof DialogLeave === "function") DialogLeave();
+	}
+
+	function drawUltimateSubCollarMenu() {
+		const context = getUltimateSubCollarMenuContext();
+		collarMenu.targetMemberNumber = context.memberNumber || 0;
+		updateCollarMenuPendingMessage(context);
+
+		DrawButton(
+			COLLAR_MENU_CLOSE_BUTTON.x,
+			COLLAR_MENU_CLOSE_BUTTON.y,
+			COLLAR_MENU_CLOSE_BUTTON.w,
+			COLLAR_MENU_CLOSE_BUTTON.h,
+			"X",
+			"White",
+			"",
+			"Close collar menu"
+		);
+		DrawText(US_SLIM_LOCK_COLLAR.label, 1500, 165, "White", "Gray");
+		DrawText(`${context.name} ${context.memberNumber ? `(#${context.memberNumber})` : ""}`, 1500, 215, "White", "Gray");
+		DrawText(context.access ? "Owner command collar" : "Owner access required", 1500, 265, context.access ? "White" : "Pink", "Gray");
+
+		const statusLines = getUltimateSubCollarStatusLines(context);
+		statusLines.forEach((line, index) => {
+			DrawTextFit(line, 1500, 315 + index * 34, 820, "White", "Gray");
+		});
+
+		getUltimateSubCollarMenuButtons(context).forEach((button) => {
+			DrawButton(
+				button.x,
+				button.y,
+				button.w,
+				button.h,
+				button.label,
+				button.enabled ? button.color || "White" : "Gray",
+				"",
+				button.tooltip || button.label
+			);
+		});
+
+		if (collarMenu.message) {
+			DrawTextFit(collarMenu.message, 1500, 925, 850, "White", "Gray");
+		}
+	}
+
+	function clickUltimateSubCollarMenu() {
+		const context = getUltimateSubCollarMenuContext();
+		if (MouseIn(COLLAR_MENU_CLOSE_BUTTON.x, COLLAR_MENU_CLOSE_BUTTON.y, COLLAR_MENU_CLOSE_BUTTON.w, COLLAR_MENU_CLOSE_BUTTON.h)) {
+			closeUltimateSubCollarMenu();
+			return;
+		}
+		for (const button of getUltimateSubCollarMenuButtons(context)) {
+			if (!MouseIn(button.x, button.y, button.w, button.h)) continue;
+			if (!button.enabled) {
+				collarMenu.message = context.access ? "That collar action is not available yet." : "Only the wearer's full BC owner can use this collar menu.";
+				return;
+			}
+			sendUltimateSubCollarMenuCommand(button.command, button.label, context);
+			return;
+		}
+	}
+
+	function getUltimateSubCollarStatusLines(context) {
+		if (!context.access) {
+			return [
+				"This collar belongs under owner control.",
+				"The wearer cannot use these controls on themself.",
+			];
+		}
+		if (context.isLocal) {
+			return [
+				buildOwnerStatus(),
+				"Local wearer controls are available only to the verified full owner.",
+			];
+		}
+		return [
+			collarMenu.lastStatus || "Press Status to ask the wearer's loaded Ultimate Sub for current settings.",
+			"Buttons send owner commands to the wearer and create normal room prompts when applied.",
+		];
+	}
+
+	function getUltimateSubCollarMenuButtons(context) {
+		const enabled = context.access && Boolean(context.memberNumber);
+		const shockMode = context.isLocal ? settings.collarShockMode : collarMenu.shockMode;
+		const buttons = [
+			{ x: 1080, y: 395, w: 250, h: 58, label: "Status", command: "collar status", color: "#D9E8FF" },
+			{ x: 1375, y: 395, w: 250, h: 58, label: shockMode ? `Shock: ${getCollarShockDisplay(shockMode)}` : "Shock: Cycle", command: "collar shock cycle", color: getCollarShockButtonColor(shockMode), tooltip: "Cycle collar shock: Off, Low, Medium, High" },
+			{ x: 1670, y: 395, w: 250, h: 58, label: "Start Training", command: "collar training start", color: "Pink" },
+			{ x: 1080, y: 470, w: 250, h: 58, label: "End Training", command: "collar training end" },
+			{ x: 1375, y: 470, w: 250, h: 58, label: "Kneel Check", command: "collar posture", color: "#D9E8FF" },
+			{ x: 1670, y: 470, w: 250, h: 58, label: "Attention", command: "collar attention", color: "#D9E8FF" },
+			{ x: 1080, y: 545, w: 250, h: 58, label: "Scold", command: "collar scold", color: "Pink" },
+			{ x: 1375, y: 545, w: 250, h: 58, label: "Praise", command: "collar praise", color: "#D9E8FF" },
+			{ x: 1670, y: 545, w: 250, h: 58, label: "Honorific", command: "collar honorific" },
+			{ x: 1080, y: 620, w: 250, h: 58, label: "Lock Wardrobe", command: "collar wardrobe lock", color: "Pink" },
+			{ x: 1375, y: 620, w: 250, h: 58, label: "Allow Wardrobe", command: "collar wardrobe allow" },
+			{ x: 1670, y: 620, w: 250, h: 58, label: "Lock UltraBC", command: "collar ubc lock", color: "Pink" },
+			{ x: 1080, y: 695, w: 250, h: 58, label: "Allow UltraBC", command: "collar ubc allow" },
+			{ x: 1375, y: 695, w: 250, h: 58, label: "Cycle RP", command: "collar rp" },
+			{ x: 1670, y: 695, w: 250, h: 58, label: "Clear Strikes", command: "collar strikes clear" },
+		];
+		return buttons.map((button) => ({ ...button, enabled }));
+	}
+
+	function sendUltimateSubCollarMenuCommand(command, label, context) {
+		if (!context.access || !context.memberNumber) {
+			collarMenu.message = "Only the wearer's full BC owner can use this collar menu.";
+			return;
+		}
+		if (!isPlayerInChatRoom() || typeof ServerSend !== "function") {
+			collarMenu.message = "Join the same chat room as the wearer, then press the button again.";
+			return;
+		}
+
+		if (context.isLocal) {
+			handleOwnerCommand({
+				Type: "Hidden",
+				Content: "UltimateSubCommand",
+				Sender: getFullOwnerMemberNumber() || Player.MemberNumber,
+				Target: Player.MemberNumber,
+				Dictionary: [{ Tag: "UltimateSubCommand", Text: command }],
+			});
+			collarMenu.message = `${label || command} applied locally.`;
+			return;
+		}
+
+		try {
+			const localResult = performUltimateSubCollarOwnerSideAction(command, context.character);
+			ServerSend("ChatRoomChat", {
+				Content: "UltimateSubCommand",
+				Type: "Hidden",
+				Target: context.memberNumber,
+				Dictionary: [
+					{ Tag: "UltimateSubCommand", Text: command },
+				],
+			});
+			collarMenu.message = `${localResult ? `${localResult} ` : ""}Sent ${label || command}; waiting for ${context.name}.`;
+			collarMenu.pendingAt = Date.now();
+			collarMenu.pendingLabel = label || command;
+		} catch (error) {
+			console.warn(`[${MOD_NAME}] Could not send collar command`, error);
+			collarMenu.message = "Could not send the collar command.";
+		}
+	}
+
+	function performUltimateSubCollarOwnerSideAction(command, character) {
+		const normalized = String(command || "").trim().toLowerCase();
+		if (normalized === "collar posture" || normalized === "collar training start") {
+			return setCharacterKneeling(character, true);
+		}
+		if (normalized === "collar training end") {
+			return setCharacterKneeling(character, false);
+		}
+		return "";
+	}
+
+	function updateCollarMenuPendingMessage(context) {
+		if (!collarMenu.pendingAt || Date.now() - collarMenu.pendingAt < 4500) return;
+		collarMenu.message = `No response from ${context.name}. Load Ultimate Sub on that account, then try ${collarMenu.pendingLabel || "again"}.`;
+		collarMenu.pendingAt = 0;
+		collarMenu.pendingLabel = "";
+	}
+
+	function getUltimateSubCollarMenuContext(character) {
+		const target = character || getCurrentDialogCharacter();
+		const memberNumber = Number(target && target.MemberNumber) || 0;
+		return {
+			character: target,
+			memberNumber,
+			name: getCharacterDisplayName(target) || "Collar wearer",
+			isLocal: Boolean(Player && memberNumber && Player.MemberNumber === memberNumber),
+			access: isPlayerOwnerOfCharacter(target),
+		};
+	}
+
+	function getCurrentDialogCharacter() {
+		try {
+			if (typeof CharacterGetCurrent === "function") return CharacterGetCurrent();
+		} catch (error) {
+			console.warn(`[${MOD_NAME}] Could not read current dialog character`, error);
+		}
+		if (typeof CurrentCharacter !== "undefined" && CurrentCharacter) return CurrentCharacter;
+		return Player || null;
+	}
+
+	function isPlayerOwnerOfCharacter(character) {
+		if (!character || !Player || !Player.MemberNumber) return false;
+		if (Number(character.MemberNumber) === Number(Player.MemberNumber)) return false;
+		try {
+			if (typeof character.IsOwnedByPlayer === "function" && character.IsOwnedByPlayer()) return true;
+		} catch (error) {
+			console.warn(`[${MOD_NAME}] Could not read target owner helper`, error);
+		}
+		return getOwnershipMemberNumbers(character).includes(Number(Player.MemberNumber));
+	}
+
 	function registerModSdkApi() {
 		if (modApi) return true;
 
@@ -4677,9 +5496,16 @@
 			return;
 		}
 
+		safeHookFunction("DrawImageEx", 1, (args, next) => {
+			args[0] = remapUltimateSubAssetSource(args[0]);
+			return next(args);
+		});
+
+		safeHookFunction("DrawAssetPreview", 5, drawUltimateSubCollarAssetPreview);
+
 		safeHookFunction("DrawCharacter", 20, (args, next) => {
 			const result = next(args);
-			drawTrainingStatusHeel(args[0], args[1], args[2], args[3]);
+			drawTrainingStatusLabel(args[0], args[1], args[2], args[3]);
 			return result;
 		});
 
@@ -4687,6 +5513,7 @@
 			if (handleRpArousalSyntheticActivity(args[0])) return;
 			if (captureTrainingPresence(args[0])) return;
 			if (ignoreLegacyStrikeAlert(args[0])) return;
+			if (captureCollarMenuResponse(args[0])) return;
 			if (captureRemoteResponse(args[0])) return;
 			if (handleOwnerCommand(args[0])) return;
 			observeTrainingActionMessage(args[0]);
@@ -4913,6 +5740,7 @@
 
 		window.UltimateSubIntervalId = setInterval(() => {
 			cleanupTimedState();
+			registerUltimateSubAssets();
 			enforceTrainingState();
 			pruneTrainingPresence();
 			broadcastTrainingPresence(false);
@@ -4926,7 +5754,9 @@
 		settings.ultraBcEscapeToolsLocked = false;
 		settings.ultraBcAutoRelockAt = 0;
 		settings.wardrobeCommandLocked = false;
+		settings.collarShockMode = "off";
 		settings.training = { ...defaultTrainingSettings };
+		setWornUltimateSubCollarShockProperty("off");
 		syncUltraBcNoEscape(false);
 		addAudit("Training defaults reset.", "All Training toggles now start off until the owner enables them.");
 		saveSettings();
@@ -4968,10 +5798,12 @@
 			settings.ultraBcEscapeToolsLocked = false;
 			settings.ultraBcAutoRelockAt = 0;
 			settings.wardrobeCommandLocked = false;
+			settings.collarShockMode = "off";
 			settings.training = {
 				...defaultTrainingSettings,
 				defaultsVersion: TRAINING_DEFAULTS_VERSION,
 			};
+			setWornUltimateSubCollarShockProperty("off");
 			syncUltraBcNoEscape(false);
 			addAudit("Version update safety reset.", "Owner locks and Training controls were set off after loading a new Ultimate Sub version.", 0, "system");
 			uiState.message = "Update safety reset: locks and Training controls are off.";
@@ -4988,6 +5820,7 @@
 		settings.ultraBcEscapeToolsLocked = false;
 		settings.ultraBcAutoRelockAt = 0;
 		settings.wardrobeCommandLocked = false;
+		settings.collarShockMode = "off";
 		settings.training = normalizeTrainingSettings({
 			...settings.training,
 			forceKneel: false,
@@ -5001,10 +5834,11 @@
 			appliedWardrobeLock: false,
 			defaultsVersion: TRAINING_DEFAULTS_VERSION,
 		}, false);
+		setWornUltimateSubCollarShockProperty("off");
 		syncUltraBcNoEscape(false);
 
 		if (hadActiveControls) {
-			addAudit("Startup live controls reset.", "Training, kneel, UltraBC, wardrobe, honorific, and strikes start off on every fresh load.", 0, "system");
+			addAudit("Startup live controls reset.", "Training, kneel, UltraBC, wardrobe, collar shock, honorific, and strikes start off on every fresh load.", 0, "system");
 			uiState.message = "Startup safety: live controls are off.";
 		}
 		saveSettings();
@@ -5027,6 +5861,7 @@
 			|| settings.ultraBcEscapeToolsLocked === true
 			|| settings.ultraBcAutoRelockAt > 0
 			|| settings.wardrobeCommandLocked === true
+			|| normalizeCollarShockMode(settings.collarShockMode) !== "off"
 			|| settings.training.forceKneel === true
 			|| settings.training.lockUltraBc === true
 			|| settings.training.lockWardrobe === true
@@ -5081,6 +5916,7 @@
 			window.UltimateSubLoaded = true;
 			window.UltimateSubVersion = MOD_VERSION;
 			beacon("boot-registered");
+			registerUltimateSubAssets();
 			installModSdkHooks();
 			refreshExtensionsListIfOpen();
 			applyStartupTrainingDefaultsReset();
