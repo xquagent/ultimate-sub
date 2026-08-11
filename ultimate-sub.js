@@ -408,12 +408,7 @@
 	let ultimateSubCollarImage = null;
 
 	function beacon(stage) {
-		try {
-			const image = new Image();
-			image.src = `http://127.0.0.1:8787/ultimate-sub-stage/${encodeURIComponent(stage)}?t=${Date.now()}`;
-		} catch (error) {
-			console.warn(`[${MOD_NAME}] Could not send diagnostic beacon`, error);
-		}
+		void stage;
 	}
 
 	function log(...args) {
