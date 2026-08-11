@@ -1,14 +1,14 @@
 # Ultimate Sub
 
-This is the first starter scaffold for a bookmark-loaded Bondage Club mod.
+Bookmark-loaded Bondage Club mod.
 
 ## What it does now
 
 - Adds an `Ultimate Sub` entry under `Profile > Preferences > Extensions`.
-- Opens a basic settings menu.
+- Opens an owner-led settings menu.
 - Stores simple local settings in the browser.
-- Includes one self-only character action: kneel / stand.
-- Adds an opt-in owner gate for ULTRAbc escape tools.
+- Adds owner controls for Training, wardrobe, UltraBC escape tools, RP arousal, tasks, logs, and the Slim Lock Collar.
+- Adds a custom Slim Lock Collar item with an owner-only collar menu and shock discipline modes.
 
 ## ULTRAbc owner gate
 
@@ -16,23 +16,7 @@ This can only work on the character/client that loads Ultimate Sub. It cannot fo
 
 Ultimate Sub now uses only a minimal ModSDK chat-message hook for compatibility with BCX and other mods. If BCX shows a compatibility warning after an older Ultimate Sub test, fully reload the Bondage Club page, then load Ultimate Sub again from the updated bookmark.
 
-In `Ultimate Sub`, the wearer must enable:
-
-```text
-Owner can manage UltraBC
-```
-
-After that, only the wearer's full assigned BC owner can use these chat commands:
-
-```text
-!us ubc lock
-!us ubc unlock
-!us ubc status
-```
-
-`!us ubc lock` sets ULTRAbc no-escape settings for the wearer. This safer build does not directly intercept BC or ULTRAbc buttons.
-
-`Local consent reset` disables owner control and allows the ULTRAbc escape tools again.
+Only the wearer's full assigned BC owner can use owner commands and owner-only collar controls.
 
 ## Files
 
@@ -41,21 +25,19 @@ After that, only the wearer's full assigned BC owner can use these chat commands
 
 ## Bookmark setup
 
-The local bookmark is already pointed at:
+Use the public install page:
 
 ```text
-http://127.0.0.1:8787/ultimate-sub.js
+https://xquagent.github.io/ultimate-sub/install.html
 ```
 
-A local server must be running for the bookmark to work. It is running now in this Codex session.
-
-Open the install page:
+Or create a bookmark manually with this URL:
 
 ```text
-C:\Users\12109\Documents\Codex\2026-08-04\i-a\outputs\ultimate-sub\install.html
+javascript:(function(){let s=document.createElement("script");s.src="https://xquagent.github.io/ultimate-sub/ultimate-sub.js?v="+Date.now();s.onload=()=>s.remove();s.onerror=()=>alert("Ultimate Sub could not load from GitHub Pages.");document.head.appendChild(s);})();
 ```
 
-Then drag the `Ultimate Sub` link to your bookmarks bar, or copy the bookmarklet code into a bookmark URL.
+Drag the `Ultimate Sub` link from the install page to your bookmarks bar, or copy the bookmarklet code into a bookmark URL.
 
 When playing:
 
@@ -65,10 +47,4 @@ When playing:
 3. Go to Profile > Preferences > Extensions > Ultimate Sub.
 ```
 
-For permanent public hosting, replace this local URL:
-
-```text
-http://127.0.0.1:8787/ultimate-sub.js
-```
-
-with a public URL such as a GitHub Pages URL.
+The bookmark loads the latest published file from GitHub Pages.
